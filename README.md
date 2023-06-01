@@ -1,5 +1,7 @@
 # Perdita
 
+[![Build](https://github.com/durangoretro/Perdita/actions/workflows/c-cpp.yml/badge.svg)](https://github.com/durangoretro/Perdita/actions/workflows/c-cpp.yml)
+
 ![imagen](https://github.com/durangoretro/Perdita/assets/6067824/a1064e48-e111-43a2-a4b9-5e70fd253bd7)
 
 
