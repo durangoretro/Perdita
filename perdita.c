@@ -20,6 +20,10 @@
 // arguments parser
 #include <unistd.h>
 
+#include "version.h"
+
+
+
 /* Gamepad buttons constants */
 #define BUTTON_A			0x80
 #define BUTTON_START		0x40
@@ -238,7 +242,8 @@ int main(int argc, char *argv[])
 	int rom_addr_int;
 
 	redefine();		// finish keyboard layout definitions
-
+	//Show Title And Version
+	printf("Perdita Emulator Ver: %s\n",perdita_version);
 	if(argc==1) {
 		usage(argv[0]);
 		return 1;
@@ -366,7 +371,6 @@ void run_emulation (int ready) {
 	long ticks = 0;			// total added microseconds of DELAY
 	long us_render = 0;		// total microseconds of rendering
 	long skip = 0;			// total skipped frames
-
 	printf("[F1=STOP, F2=NMI, F3=IRQ, F4=RESET, F5=PAUSE, F6=DUMP, F7=STEP, F8=CONT, F9=LOAD]\n");
 	if (graf)	init_vdu();
 	if(!ready) {
