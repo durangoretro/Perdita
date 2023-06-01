@@ -1,6 +1,6 @@
 # Perdita
 
-![imagen](https://github.com/durangoretro/Perdita/assets/6067824/116f6843-a26f-463a-8c06-4960b9b3dfc4)
+![imagen](https://github.com/durangoretro/Perdita/assets/6067824/a1064e48-e111-43a2-a4b9-5e70fd253bd7)
 
 
 Perdita is a Durango Emulator that can run any ROM created for Durango. Perdita is based on the **65C02** instruction set and the **Durango-X** architecture, but currently does **not** support the _Rockwell **R**65C02_ extensions. However, the _WDC_ `WAI` and `STP` opcodes are emulated, the former as a **breakpoint**.
