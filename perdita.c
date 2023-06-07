@@ -5,7 +5,7 @@
  * license that can be found in the LICENSE file or at
  * https://opensource.org/licenses/MIT.
  * Perdita 65C02 Durango-X emulator!
- * last modified 20230415-1700
+ * last modified 20230607-2032
  * */
 
 // Compile using MakeFile
@@ -1803,12 +1803,14 @@ int exec(void) {
 		case 0xFA:			// CMOS only
 			x = pop();
 			if (ver > 3) printf("[PLX]");
+			bits_nz(x);		// EEEEEEEEEEEEEEEEEEEEK
 			per = 4;
 			break;
 /* *** PLX: Pull Index X from Stack *** */
 		case 0x7A:			// CMOS only
 			y = pop();
 			if (ver > 3) printf("[PLY]");
+			bits_nz(y);		// EEEEEEEEEEEEEEEEEEEEK
 			per = 4;
 			break;
 /* *** ROL: Rotate One Bit Left (Memory or Accumulator) *** */
