@@ -10,7 +10,7 @@ INCL_WIN = -I$(SDL_WIN)/include -I$(SDL_WIN)/include/SDL2
 SRCDIR = src
 
 INCDIR = headers/
-SRCFILES = src/perdita.c
+SRCFILES = src/perdita.c src/globals.c
 
 all:perdita
 
