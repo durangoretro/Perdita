@@ -69,7 +69,9 @@ int main(int argc, char *argv[])
 	int c, do_rand=1;
 	char *filename;
 	char *rom_addr=NULL;
+	char *exe_addr=NULL;
 	int rom_addr_int;
+	int exe_addr_int;
 
 	redefine();		// finish keyboard layout definitions
 	//Show Title And Version
@@ -81,7 +83,7 @@ int main(int argc, char *argv[])
 
 	opterr = 0;
 
-	while ((c = getopt (argc, argv, "a:fvlksphrgmd")) != -1)
+	while ((c = getopt (argc, argv, "a:fvlksphrgmdx")) != -1)
 	switch (c) {
 		case 'a':
 			rom_addr = optarg;
@@ -119,6 +121,9 @@ int main(int argc, char *argv[])
         case 'd':
             dump_on_exit = 1;
             break;
+		case 'x':
+			exe_addr = optarg;
+			break;
 		case '?':
 			fprintf (stderr, "Unknown option\n");
 			usage(argv[0]);
@@ -143,6 +148,11 @@ int main(int argc, char *argv[])
 		return 1;
 	}
 
+	if(exe_addr != NULL && (strlen(exe_addr) != 6 || exe_addr[0]!='0' || exe_addr[1]!='x')) {
+		printf("Execution address format: 0x0000\n");
+		return 1;
+	}
+
 	if (do_rand)		randomize();		// randomize memory contents
 
 	if(rom_addr == NULL) {
@@ -150,8 +160,14 @@ int main(int argc, char *argv[])
 	}
 	else {
 		rom_addr_int = (int)strtol(rom_addr, NULL, 0);
+		if (exe_addr == NULL) {
+			exe_addr_int = rom_addr_int;
+		} else {
+			rom_addr_int = (int)strtol(exe_addr, NULL, 0);
+		}
 		load(filename, rom_addr_int);
 /* set some standard vectors and base ROM contents */
+/* TO DO: add BIOS/BDOS support for Pocket executables */
 		mem[0xFFF4] = 0x6C;					// JMP ($0200) as recommended for IRQ
 		mem[0xFFF5] = 0x00;
 		mem[0xFFF6] = 0x02;
@@ -160,8 +176,8 @@ int main(int argc, char *argv[])
 		mem[0xFFF9] = 0x02;
 		mem[0xFFFA] = 0xF7;					// standard NMI vector points to recommended indirect jump
 		mem[0xFFFB] = 0xFF;
-		mem[0xFFFC] = rom_addr_int & 0xFF;	// set RESET vector pointing to loaded code
-		mem[0xFFFD] = rom_addr_int >> 8;
+		mem[0xFFFC] = exe_addr_int & 0xFF;	// set RESET vector pointing to loaded code (or specified execution address)
+	 	mem[0xFFFD] = exe_addr_int >> 8;
 		mem[0xFFFE] = 0xF4;					// standard IRQ vector points to recommended indirect jump
 		mem[0xFFFF] = 0xFF;
                 run_emulation(0);
