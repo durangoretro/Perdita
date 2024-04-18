@@ -1,7 +1,13 @@
 COMPILER_FLAGS = -Wall -O2
 COMPILER_FLAGS_WIN = $(COMPILER_FLAGS) -c
 LINKER_FLAGS = -lstdc++ -lSDL2 -lm
-VERSION?=1.0.2
+VERSION ?= 1.0.2
+ARCH ?= amd64
+
+TEMP_DIR ?= perdita_$(VERSION)_$(ARCH)
+CONTROL ?= $(TEMP_DIR)/DEBIAN/control
+
+
 
 SDL_WIN = ${HOME}/sdl_win/SDL2-2.0.18/x86_64-w64-mingw32
 LIB_WIN = -L$(SDL_WIN)/lib
@@ -47,4 +53,19 @@ perdita.win.o: version.h $(SRCFILES)
 	x86_64-w64-mingw32-gcc $(INCL_WIN) $(LIB_WIN) $(COMPILER_FLAGS_WIN) $(SRCFILES) -I$(INCDIR) -o $@
 
 clean:
-	rm -f perdita; rm -f perdita_debug; rm -f perdita.exe; rm -f perdita.zip; rm -f perdita.win.o version.h $(OBJFILES)
+	rm -f perdita; rm -f perdita_debug; rm -f perdita.exe; rm -f perdita.zip; rm -f perdita.win.o version.h $(OBJFILES) $(TEMP_DIR)
+
+make-deb: perdita
+	mkdir $(TEMP_DIR)
+	mkdir -p $(TEMP_DIR)/usr/local/bin
+	mkdir -p $(TEMP_DIR)/DEBIAN
+
+	cp perdita $(TEMP_DIR)/usr/local/bin
+
+	echo "Package: perdita" > $(CONTROL)
+	echo "Version: $(VERSION)" >> $(CONTROL)
+	echo "Architecture: $(ARCH)" >> $(CONTROL)
+	echo "Maintainer: Durango Computer Team" >> $(CONTROL)
+	echo "Description: Perdita: Durango computer emulator." >> $(CONTROL)
+	echo "Depends: libsdl2-dev (>=2.0.0)" >> $(CONTROL)
+	dpkg-deb --build --root-owner-group $(TEMP_DIR)
