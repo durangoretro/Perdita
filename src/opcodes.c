@@ -49,19 +49,16 @@ void ror(byte *d) {
 /* ADC, add with carry */
 void adc(byte d) {
 	byte old = a;
-	word big = a, high;
-
-	big += d;				// basic add... but check for Decimal mode!
-	big += (p & 1);			// add with Carry (A was computer just after this)
+	word big = a;
 
 	if (p & 0b00001000) {						// Decimal mode!
-		high = (old & $F0)+(d & $F0);			// compute carry-less LSN
-		if (((big & 0x0F) > 9)||(high != (big & $F0))) {		// LSN overflow? was 'a' instead of 'big'
-			big += 6;											// get into next decade
-		}
-		if (((big & 0xF0) > 0x90)||(big & 256)) {				// MSN overflow?
-			big += 0x60;						// correct it
-		}
+		big = (old & 0x0F) + (d & 0x0F) + (p & 1);		// LSN + Carry
+		if (big > 9)		big += 6;					// LSN decimal adjust
+		big += (old & 0xF0) + (d & 0xF0);		// MSN + half carry
+		if (big > 0x99)		big += 0x60;		// MSN decimal adjust
+	} else {
+		big += d;			// basic add... but check for Decimal mode!
+		big += (p & 1);		// add with Carry (A was computer just after this)
 	}
 	a = big & 255;			// placed here trying to correct Carry in BCD mode
 
