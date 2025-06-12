@@ -71,7 +71,7 @@ int main(int argc, char *argv[])
 	char *rom_addr=NULL;
 	char *exe_addr=NULL;
 	int rom_addr_int;
-	int exe_addr_int;
+	int exe_addr_int=0;
 
 	redefine();		// finish keyboard layout definitions
 	//Show Title And Version
