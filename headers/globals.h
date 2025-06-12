@@ -2,7 +2,7 @@
 #include <SDL2/SDL_joystick.h>
 #include <SDL2/SDL_render.h>
 #include <SDL2/SDL_video.h>
-#include <bits/types/FILE.h>
+#include <stdio.h>
 #include <stdint.h>
 
 #ifndef GLOBALS_H
