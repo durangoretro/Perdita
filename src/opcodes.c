@@ -56,7 +56,7 @@ void adc(byte d) {
 
 	if (p & 0b00001000) {						// Decimal mode!
 		high = (old & 0x0F)+(d & 0x0F);			// compute carry-less LSN
-		if (((big & 0x0F) > 9)||(high != (big & 0x0F))) {		// LSN overflow? was 'a' instead of 'big'
+		if (((big & 0x0F) > 9)||(high  0x10))) {		// LSN overflow? was 'a' instead of 'big'
 			big += 6;											// get into next decade
 		}
 		if (((big & 0xF0) > 0x90)||(big & 256)) {				// MSN overflow?
