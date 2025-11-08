@@ -1,3 +1,5 @@
+#include <string.h>
+
 #include "roms.h"
 
 /* load firmware, arbitrary position */

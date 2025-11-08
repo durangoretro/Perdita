@@ -1,3 +1,6 @@
+#include <stdlib.h>
+#include <time.h>
+
 #include "memory_management.h"
 
 /* *** memory management *** */
